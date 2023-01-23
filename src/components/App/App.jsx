@@ -18,9 +18,7 @@ class App extends Component {
   };
 
   addNewContact = (newContact) => {
-    this.setState(prevState => {
-      return {contacts: [{id: nanoid(), ...newContact}, ...this.state.contacts]}
-    });
+    this.setState({contacts: [{id: nanoid(), ...newContact}, ...this.state.contacts]});
   }
 
   deleteContact = (dataId) => {
@@ -30,9 +28,7 @@ class App extends Component {
   }
 
   setFilterWord = (event) => {
-    this.setState(prevState => {
-      return {filter: event.target.value.trim()}
-    });
+    this.setState({filter: event.target.value.trim()});
   }
 
   filteredContacts = () => {
