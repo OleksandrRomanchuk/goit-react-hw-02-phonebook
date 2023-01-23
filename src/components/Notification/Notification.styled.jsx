@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const NotifyMessage = styled.p`
-    min-height: 205px;
-    max-height: 205px;
+    min-height: 200px;
+    max-height: 200px;
 
     margin-top: 20px;
     padding-top: 30px;
