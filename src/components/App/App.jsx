@@ -18,7 +18,14 @@ class App extends Component {
   };
 
   addNewContact = (newContact) => {
-    this.setState({contacts: [{id: nanoid(), ...newContact}, ...this.state.contacts]});
+    if (this.checkNewContact(newContact.name)) {
+      alert(`${newContact.name} is already in contacts.`);
+      return true;
+    }
+
+    this.setState({ contacts: [{ id: nanoid(), ...newContact }, ...this.state.contacts] });
+    
+    return false;
   }
 
   deleteContact = (dataId) => {
@@ -36,33 +43,36 @@ class App extends Component {
 
     return this.state.contacts.filter(({name}) => name.toLowerCase().includes(normalizeFilterWord))
   }
+
+  checkNewContact = (newName) => {
+        return this.state.contacts.some(({ name }) => name === newName);
+    }
   
   render() {
     const contacts = this.state.contacts;
-    const contacsCount = contacts.length;
+    const contacsCount = Boolean(contacts.length);
 
     return (
       <PhonebookApp>
         <Container>
           <Title>Phonebook</Title>
           <Wrapper>
-            <Section title="Form to add contacts">
+            <Section title="Form to add contacts.">
               <ContactForm
-                contactsList={contacts}
                 getNewContactData={this.addNewContact} />
             </Section>
             
             <Section title="Contacts">
               {!contacsCount
-                ? <Notification
-                  message="There are no contacts" />
-                : <>
-                  <Filter
-                    onChange={this.setFilterWord} />
-                  <ContactList
-                    contacts={this.filteredContacts()}
-                    deleteContact={this.deleteContact} />
-                </>}
+                && <Notification
+                  message="There are no contacts" />}
+              {contacsCount && <>
+                <Filter
+                  onChange={this.setFilterWord} />
+                <ContactList
+                  contacts={this.filteredContacts()}
+                  deleteContact={this.deleteContact} />
+              </>}
             </Section>
           </Wrapper>
         </Container>
